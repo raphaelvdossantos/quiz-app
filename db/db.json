@@ -9,7 +9,24 @@
           "id": 1,
           "prompt": "Knock Knock",
           "answer": 1,
-          "choices": []
+          "choices": [
+            {
+              "id": 1,
+              "value": "Who's there?"
+            },
+            {
+              "id": 2,
+              "value": "Who is knocking?"
+            },
+            {
+              "id": 3,
+              "value": "I am the one who knocks"
+            },
+            {
+              "id": 4,
+              "value": "Knock"
+            }
+          ]
         },
         {
           "id": 2,

@@ -1,7 +1,7 @@
 import { MAX_CHOICES_COUNT } from '../../utils/constants';
 import EditableChoices from '../EditableChoices';
 
-function   EditableQuestion(props) {
+function EditableQuestion(props) {
   const {
     id,
     prompt,
@@ -10,19 +10,21 @@ function   EditableQuestion(props) {
     removeChoice,
     editChoices,
     editTitle,
-    saveQuestion,
   } = props;
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col mb-4'>
       <input
-        className='h-fit w-full pl-1'
+        className='h-fit w-full pl-1 text-lg mb-2'
         type='textarea'
         defaultValue={prompt}
         onChange={editTitle}
       />
       {choices?.length < MAX_CHOICES_COUNT && (
-        <button className='w-fit' onClick={() => addNewChoice(id)}>
+        <button
+          className='w-fit rounded-md px-2 py-1 font-semibold hover:bg-slate-100'
+          onClick={() => addNewChoice(id)}
+        >
           Add Choice
         </button>
       )}

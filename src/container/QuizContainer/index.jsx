@@ -4,6 +4,7 @@ import Question from '../../components/Question';
 import { SessionContext } from '../../context/Session';
 import EditableQuestion from '../../components/EditableQuestion';
 import Navigate from '../../components/Navigate';
+import { updateQuestion } from '../../utils/quiz';
 
 function QuizContainer() {
   const session = useContext(SessionContext);
@@ -14,7 +15,7 @@ function QuizContainer() {
     state?.quiz.questions?.find((question) => question.id === 1)
   );
   const [editQuiz, setEditQuiz] = useState(false);
-  const [answers, setAnswers] = useState({});
+  const [choices, setChoices] = useState([]);
 
   const handleOnNext = useCallback(() => {
     setCurrentQuestion((prev) =>
@@ -58,17 +59,29 @@ function QuizContainer() {
 
   const editQuestionChoices = useCallback(
     (event, choiceId) => {
-      const questionsCopy = { ...currentQuestion };
-      const choice = questionsCopy.choices.find(
+      const questionCopy = { ...currentQuestion };
+      const choice = questionCopy.choices.find(
         (choice) => choice?.id === choiceId
       );
       if (choice) {
         choice.value = event?.target?.value;
-        setCurrentQuestion(questionsCopy);
+        setCurrentQuestion(questionCopy);
       }
     },
     [currentQuestion]
   );
+
+  const saveChanges = useCallback(async () => {
+    const quiz = { ...state?.quiz };
+    let question = quiz?.questions.find(
+      (question) => question.id === currentQuestion.id
+    );
+
+    if (question) {
+      question = currentQuestion;
+      await updateQuestion(quiz);
+    }
+  }, [currentQuestion, state?.quiz]);
 
   return (
     <div className='px-10 py-4'>
@@ -76,17 +89,17 @@ function QuizContainer() {
         <Link className='hover:underline' to='/'>
           {'< Back to Home'}
         </Link>
-        <div className='flex gap-4'>
+        <div className='flex gap-4 align-middle'>
           {!session.isAuthenticated ? (
             <>
               <button
-                className='rounded-md px-2 py-1 hover:bg-slate-100'
+                className='rounded-md px-2 py-1 font-semibold hover:bg-slate-100'
                 onClick={session.createAccount}
               >
                 Create Account
               </button>
               <button
-                className='rounded-md px-2 py-1 hover:bg-slate-100'
+                className='rounded-md px-2 py-1 font-semibold hover:bg-slate-100'
                 onClick={session.login}
               >
                 Login
@@ -96,34 +109,42 @@ function QuizContainer() {
             <>
               {session?.user?.isAdmin && (
                 <button
-                  className='rounded-md px-2 py-1 hover:bg-slate-100'
+                  className='rounded-md px-2 py-1 font-semibold hover:bg-slate-100'
                   onClick={() => setEditQuiz((prev) => !prev)}
                 >
                   {editQuiz ? 'Stop Editing' : 'Edit Quiz'}
                 </button>
               )}
               <button
-                className='rounded-md px-2 py-1 hover:bg-slate-100'
+                className='rounded-md px-2 py-1 font-semibold hover:bg-slate-100'
                 onClick={session.logout}
               >
                 Log out
               </button>
-              <h1>{session.user.username}</h1>
+              <h1 className='text-lg font-semibold'>{session.user.username}</h1>
             </>
           )}
         </div>
       </nav>
       <h1 className='text-lg font-semibold mb-6'>{state?.quiz?.title}</h1>
       {editQuiz ? (
-        <EditableQuestion
-          prompt={currentQuestion?.prompt}
-          choices={currentQuestion?.choices}
-          addNewChoice={addNewChoice}
-          removeChoice={removeChoice}
-          editChoice={editQuestionChoices}
-          editTitle={editQuestionTitle}
-          id={currentQuestion?.id}
-        />
+        <>
+          <EditableQuestion
+            prompt={currentQuestion?.prompt}
+            choices={currentQuestion?.choices}
+            addNewChoice={addNewChoice}
+            removeChoice={removeChoice}
+            editChoices={editQuestionChoices}
+            editTitle={editQuestionTitle}
+            id={currentQuestion?.id}
+          />
+          <button
+            className='rounded-md px-2 py-1 font-semibold hover:bg-slate-100'
+            onClick={saveChanges}
+          >
+            Save Question
+          </button>
+        </>
       ) : (
         <>
           <Question

@@ -20,13 +20,13 @@ function Home() {
         {!session.isAuthenticated ? (
           <>
             <button
-              className='rounded-md px-2 py-1 hover:bg-slate-100'
+              className='rounded-md px-2 py-1 font-semibold hover:bg-slate-100'
               onClick={session.createAccount}
             >
               Create Account
             </button>
             <button
-              className='rounded-md px-2 py-1 hover:bg-slate-100'
+              className='rounded-md px-2 py-1 font-semibold hover:bg-slate-100'
               onClick={session.login}
             >
               Login
@@ -40,7 +40,7 @@ function Home() {
               </Link>
             )}
             <button
-              className='rounded-md px-2 py-1 hover:bg-slate-100'
+              className='rounded-md px-2 py-1 font-semibold hover:bg-slate-100'
               onClick={session.logout}
             >
               Log out

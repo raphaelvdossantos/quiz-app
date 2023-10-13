@@ -18,7 +18,7 @@ function Session(props) {
       <button className='fixed top-3 right-4' onClick={close}>
         Close
       </button>
-      <div className='flex rounded-md relative w-1/5 h-2/5 bg-slate-50 justify-center items-center'>
+      <div className='flex rounded-md relative w-1/5 h-2/5 bg-slate-100 justify-center items-center'>
         {children}
       </div>
     </div>
@@ -36,18 +36,31 @@ Session.Login = function Login(props) {
 
   return (
     <form className='flex flex-col w-3/4' onSubmit={props.onSubmit}>
-      <h1 className='mb-10'>Login</h1>
+      <h1 className='mb-10 text-lg font-bold'>Login</h1>
       <label>Username:</label>
-      <input className='mb-2 pl-1' type='text' id='username' name='username' />
+      <input
+        className='mb-2 pl-1 rounded-md'
+        type='text'
+        id='username'
+        name='username'
+      />
       <label>Password:</label>
-      <input className='mb-2 pl-1' type='password' id='pwd' name='pwd' />
+      <input
+        className='mb-2 pl-1 rounded-md'
+        type='password'
+        id='pwd'
+        name='pwd'
+      />
       <span>
         Don't have an account?
         <button className='ml-1' onClick={handleCreateAccount} type='button'>
           Create one!
         </button>
       </span>
-      <button type='submit' className='my-4'>
+      <button
+        type='submit'
+        className='my-4 rounded-md px-2 py-1 font-semibold hover:bg-slate-200'
+      >
         Login
       </button>
     </form>
@@ -65,15 +78,25 @@ Session.CreateAccount = function CreateAccount(props) {
 
   return (
     <form className='flex flex-col w-3/4' onSubmit={props.onSubmit}>
-      <h1 className='mb-10'>Create an Account</h1>
+      <h1 className='mb-10 text-lg font-bold'>Create an Account</h1>
       <label>Username:</label>
-      <input className='mb-2 pl-1' type='text' id='username' name='username' />
+      <input
+        className='mb-2 pl-1 rounded-md'
+        type='text'
+        id='username'
+        name='username'
+      />
       <label>Password:</label>
-      <input className='mb-2 pl-1' type='password' id='pwd' name='pwd' />
+      <input
+        className='mb-2 pl-1 rounded-md'
+        type='password'
+        id='pwd'
+        name='pwd'
+      />
 
       <label>Confirm Password:</label>
       <input
-        className='mb-2 pl-1'
+        className='mb-2 pl-1 rounded-md'
         type='password'
         id='confirm_pwd'
         name='confirm_pwd'
@@ -84,7 +107,10 @@ Session.CreateAccount = function CreateAccount(props) {
           Log in
         </button>
       </span>
-      <button type='submit' className='my-4'>
+      <button
+        type='submit'
+        className='my-4 rounded-md px-2 py-1 font-semibold hover:bg-slate-200'
+      >
         Create account
       </button>
     </form>

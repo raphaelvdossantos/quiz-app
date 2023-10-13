@@ -1,5 +1,5 @@
 function EditableChoices(props) {
-  const { choices, removeChoice, editChoices, saveChoices } = props;
+  const { choices, removeChoice, editChoices } = props;
 
   return (
     <div className='flex flex-col'>
@@ -18,7 +18,10 @@ function EditableChoices(props) {
               onChange={(event) => editChoices(event, choice?.id)}
             />
           </label>
-          <button className='w-fit' onClick={() => removeChoice(choice?.id)}>
+          <button
+            className='w-fit rounded-md px-2 py-1 font-semibold hover:bg-slate-100'
+            onClick={() => removeChoice(choice?.id)}
+          >
             Remove Choice
           </button>
         </div>
