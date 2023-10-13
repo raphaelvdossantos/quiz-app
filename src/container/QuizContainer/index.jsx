@@ -1,5 +1,5 @@
 import { useCallback, useContext, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Question from '../../components/Question';
 import { SessionContext } from '../../context/Session';
 import EditableQuestion from '../../components/EditableQuestion';
@@ -12,10 +12,36 @@ function QuizContainer() {
   let { state } = useLocation();
 
   const [currentQuestion, setCurrentQuestion] = useState(
-    state?.quiz.questions?.find((question) => question.id === 1)
+    state?.quiz.questions?.at(0)
   );
   const [editQuiz, setEditQuiz] = useState(false);
   const [choices, setChoices] = useState([]);
+
+  const navigate = useNavigate();
+
+  const answered = useCallback(() => {
+    const answeredId = choices?.findIndex(
+      (choice) => choice?.question === currentQuestion?.id
+    );
+
+    return answeredId;
+  }, [choices, currentQuestion?.id]);
+
+  const handleOnChoiceChange = useCallback(
+    (event) => {
+      const choicesCopy = [...choices];
+
+      answered() !== -1
+        ? (choicesCopy[answered()].answer = Number(event?.target?.value))
+        : choicesCopy.push({
+            question: currentQuestion?.id,
+            answer: Number(event?.target?.value),
+          });
+
+      return setChoices(choicesCopy);
+    },
+    [answered, choices, currentQuestion]
+  );
 
   const handleOnNext = useCallback(() => {
     setCurrentQuestion((prev) =>
@@ -30,6 +56,18 @@ function QuizContainer() {
       state?.quiz.questions.find((q) => q.id === Math.max(prev.id - 1, 1))
     );
   }, [state?.quiz.questions]);
+
+  const handleOnSubmit = useCallback(() => {
+    if (
+      !session?.isAuthenticated &&
+      window.confirm('You need to be logged in to see the results')
+    ) {
+      return session.login();
+    }
+
+    const answers = [{ quiz: state?.quiz?.id, choices }];
+    return navigate('/score', { state: { answers, quiz: state?.quiz } });
+  }, [choices, navigate, session, state?.quiz]);
 
   const addNewChoice = useCallback(
     (id) => {
@@ -150,12 +188,15 @@ function QuizContainer() {
           <Question
             prompt={currentQuestion?.prompt}
             choices={currentQuestion?.choices}
+            onChoiceChange={handleOnChoiceChange}
           />
           <Navigate
             previous={currentQuestion?.id > 1}
             next={currentQuestion?.id !== state?.quiz.questions.at(-1).id}
             onPrevious={handleOnPrevious}
             onNext={handleOnNext}
+            onSubmit={handleOnSubmit}
+            disableNavigation={answered() === -1}
           />
         </>
       )}

@@ -33,3 +33,17 @@ export async function updateResource(resourceName, resourceId, resourceData) {
 
   return resource;
 }
+
+export async function deleteResource(resourceName, resourceId) {
+  const data = await fetch(
+    `http://localhost:3003/${resourceName}/${resourceId}`,
+    {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+
+  return data;
+}

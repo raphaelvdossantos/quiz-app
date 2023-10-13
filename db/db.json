@@ -31,7 +31,7 @@
         {
           "id": 2,
           "prompt": "Why the chicken crossed the road?",
-          "answer": 3,
+          "answer": 2,
           "choices": [
             {
               "id": 1,
@@ -51,10 +51,19 @@
       "title": "Movies quiz",
       "questions": [
         {
-          "id": 1
-        },
-        {
-          "id": 2
+          "id": 2,
+          "prompt": "Why the chicken crossed the road?",
+          "answer": 2,
+          "choices": [
+            {
+              "id": 1,
+              "value": "I don't know"
+            },
+            {
+              "id": 2,
+              "value": "To get to the other side"
+            }
+          ]
         }
       ]
     }

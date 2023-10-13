@@ -1,10 +1,14 @@
 function Navigate(props) {
-  const { next, previous, onPrevious, onNext, onSubmit } = props;
+  const { next, previous, onPrevious, onNext, onSubmit, disableNavigation } =
+    props;
   return (
     <div className='flex'>
       {previous && (
         <button
-          className='rounded-md px-2 py-1 font-semibold hover:bg-slate-200'
+          disabled={disableNavigation}
+          className={`rounded-md px-2 py-1 font-semibold ${
+            disableNavigation ? 'text-gray-600' : 'hover:bg-slate-200'
+          }`}
           onClick={onPrevious}
         >
           Previous
@@ -12,14 +16,20 @@ function Navigate(props) {
       )}
       {next ? (
         <button
-          className='rounded-md px-2 py-1 font-semibold hover:bg-slate-200'
+          disabled={disableNavigation}
+          className={`rounded-md px-2 py-1 font-semibold ${
+            disableNavigation ? 'text-gray-600' : 'hover:bg-slate-200'
+          }`}
           onClick={onNext}
         >
           Next
         </button>
       ) : (
         <button
-          className='rounded-md px-2 py-1 font-semibold hover:bg-slate-200'
+          disabled={disableNavigation}
+          className={`rounded-md px-2 py-1 font-semibold ${
+            disableNavigation ? 'text-gray-600' : 'hover:bg-slate-200'
+          }`}
           onClick={onSubmit}
         >
           Submit

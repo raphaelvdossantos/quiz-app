@@ -1,5 +1,5 @@
 function AnswerSelector(props) {
-  const { choices } = props;
+  const { choices, onChange } = props;
 
   return (
     <div className='flex flex-col'>
@@ -10,7 +10,9 @@ function AnswerSelector(props) {
             key={choice?.id}
             id={choice?.id}
             name='answer'
+            value={choice?.id}
             className='mr-2'
+            onChange={onChange}
           />
           {choice?.value}
         </label>
