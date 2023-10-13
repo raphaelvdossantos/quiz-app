@@ -9,20 +9,21 @@ function EditableQuestion(props) {
     addNewChoice,
     removeChoice,
     editChoices,
-    editTitle,
+    editQuestion,
+    editAnswer,
   } = props;
 
   return (
     <div className='flex flex-col mb-4'>
       <input
-        className='h-fit w-full pl-1 text-lg mb-2'
-        type='textarea'
+        className='h-fit w-[100rem] pl-1 text-md mb-4'
+        type='text'
         defaultValue={prompt}
-        onChange={editTitle}
+        onChange={editQuestion}
       />
       {choices?.length < MAX_CHOICES_COUNT && (
         <button
-          className='w-fit rounded-md px-2 py-1 font-semibold hover:bg-slate-100'
+          className='w-fit rounded-md px-2 py-1 font-semibold hover:bg-slate-100 mb-1'
           onClick={() => addNewChoice(id)}
         >
           Add Choice
@@ -30,8 +31,10 @@ function EditableQuestion(props) {
       )}
       <EditableChoices
         choices={choices}
-        removeChoice={(choiceId) => removeChoice(choiceId, id)}
+        removeChoice={removeChoice}
         editChoices={editChoices}
+        editAnswer={editAnswer}
+        questionId={id}
       />
     </div>
   );
