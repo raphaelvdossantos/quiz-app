@@ -5,6 +5,7 @@ import { SessionContext } from '../../context/Session';
 import EditableQuestion from '../../components/EditableQuestion';
 import Navigate from '../../components/Navigate';
 import { updateQuestion } from '../../utils/quiz';
+import { updateUserWithAnswers } from '../../utils/user';
 
 function QuizContainer() {
   const session = useContext(SessionContext);
@@ -16,7 +17,6 @@ function QuizContainer() {
   );
   const [editQuiz, setEditQuiz] = useState(false);
   const [choices, setChoices] = useState([]);
-  console.log({ choices, currentQuestion, state: state?.quiz?.questions });
 
   const navigate = useNavigate();
 
@@ -58,17 +58,35 @@ function QuizContainer() {
     );
   }, [state?.quiz.questions]);
 
-  const handleOnSubmit = useCallback(() => {
-    if (
-      !session?.isAuthenticated &&
-      window.confirm('You need to be logged in to see the results')
-    ) {
+  const saveQuizToUser = useCallback(
+    async (answers) => {
+      await session.update();
+      const user = { ...session.user };
+
+      const answered = user.answers.findIndex(
+        (ans) => ans.quiz === answers[0].quiz
+      );
+
+      answered !== -1
+        ? user.answers.splice(answered, 1, answers[0])
+        : (user.answers = [...user.answers, ...answers]);
+
+      updateUserWithAnswers(user);
+    },
+    [session]
+  );
+
+  const handleOnSubmit = useCallback(async () => {
+    if (!session?.isAuthenticated) {
+      if (!window.confirm('You need to be logged in to see the results'))
+        return;
       return session.login();
     }
 
     const answers = [{ quiz: state?.quiz?.id, choices }];
+    await saveQuizToUser(answers);
     return navigate('/score', { state: { answers, quiz: state?.quiz } });
-  }, [choices, navigate, session, state?.quiz]);
+  }, [choices, navigate, saveQuizToUser, session, state?.quiz]);
 
   const addNewChoice = useCallback(
     (id) => {

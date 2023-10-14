@@ -1,6 +1,5 @@
 function AnswerSelector(props) {
   const { choices, onChange, selectedAnswer, questionId } = props;
-  console.log({ selectedAnswer });
 
   return (
     <div className='flex flex-col'>

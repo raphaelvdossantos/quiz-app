@@ -1,8 +1,8 @@
-import { createResource, fetchResource } from './api';
+import { createResource, fetchResource, updateResource } from './api';
 import { RESOURCES } from './constants';
 import { generateUniqueId, pipe } from './functions';
 
-async function fetchUser(username, password) {
+export async function fetchUser(username, password) {
   let params = `?username=${username}`;
   if (password) params += `&password=${password}`;
   const user = await fetchResource(RESOURCES.USER, params);
@@ -74,3 +74,8 @@ export const createUser = async (username, password, pwdConfirmation) => {
 
   return user;
 };
+
+export async function updateUserWithAnswers(user) {
+  const updatedUser = await updateResource(RESOURCES.USER, user?.id, user);
+  return updatedUser;
+}

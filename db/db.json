@@ -80,7 +80,20 @@
           "choices": [
             {
               "question": 1,
-              "answer": 2
+              "answer": 3
+            },
+            {
+              "question": 2,
+              "answer": 1
+            }
+          ]
+        },
+        {
+          "quiz": 2,
+          "choices": [
+            {
+              "question": 2,
+              "answer": 1
             }
           ]
         }
@@ -91,6 +104,13 @@
       "isAdmin": false,
       "password": "1234",
       "username": "Cheese",
+      "answers": []
+    },
+    {
+      "id": 4016910221,
+      "isAdmin": true,
+      "username": "jhon",
+      "password": "1234",
       "answers": []
     }
   ]

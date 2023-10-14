@@ -1,6 +1,6 @@
 import { createContext, useCallback, useMemo, useState } from 'react';
 import Session from '../container/Session';
-import { authenticateUser, createUser } from '../utils/user';
+import { authenticateUser, createUser, fetchUser } from '../utils/user';
 import { SESSION_ACTION } from '../utils/constants';
 
 export const SessionContext = createContext({});
@@ -58,6 +58,10 @@ export function SessionProvider({ children }) {
   }, []);
 
   const logout = useCallback(() => setSession(defaultSessionValue), []);
+  const update = useCallback(async () => {
+    const user = await fetchUser(session.user.username, session.user.password);
+    setSession((prev) => ({ ...prev, user: user[0] }));
+  }, [session.user.password, session.user.username]);
 
   const isAuthenticated = useMemo(() => {
     return Boolean(session.id && session.user.id);
@@ -70,8 +74,9 @@ export function SessionProvider({ children }) {
       login,
       createAccount,
       logout,
+      update,
     }),
-    [login, createAccount, logout, isAuthenticated, session]
+    [session, isAuthenticated, login, createAccount, logout, update]
   );
 
   return (
