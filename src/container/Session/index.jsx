@@ -15,10 +15,13 @@ function Session(props) {
 
   return (
     <div className='fixed top-0 z-50 w-screen h-screen  bg-black bg-opacity-70 items-center justify-center flex'>
-      <button className='fixed top-3 right-4' onClick={close}>
+      <button
+        className='fixed top-4 right-5 rounded-full bg-white font-bold py-4 px-2 hover:bg-slate-200'
+        onClick={close}
+      >
         Close
       </button>
-      <div className='flex rounded-md relative w-1/5 h-2/5 bg-slate-100 justify-center items-center'>
+      <div className='flex rounded-md relative w-5/6 h-2/5 bg-slate-100 justify-center items-center  sm:w-1/5'>
         {children}
       </div>
     </div>

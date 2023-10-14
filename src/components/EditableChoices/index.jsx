@@ -10,7 +10,7 @@ function EditableChoices(props) {
       )}
       {choices?.map((choice) => (
         <div className='flex items-center' key={choice?.id}>
-          <label htmlFor={choice?.id}>
+          <label htmlFor={`answer_${questionId}`}>
             <input
               type='radio'
               id={choice?.id}

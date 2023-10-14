@@ -16,6 +16,7 @@ function QuizContainer() {
   );
   const [editQuiz, setEditQuiz] = useState(false);
   const [choices, setChoices] = useState([]);
+  console.log({ choices, currentQuestion, state: state?.quiz?.questions });
 
   const navigate = useNavigate();
 
@@ -189,6 +190,10 @@ function QuizContainer() {
             prompt={currentQuestion?.prompt}
             choices={currentQuestion?.choices}
             onChoiceChange={handleOnChoiceChange}
+            selectedAnswer={choices.find(
+              (choice) => choice.question === currentQuestion.id
+            )}
+            id={currentQuestion?.id}
           />
           <Navigate
             previous={currentQuestion?.id > 1}
